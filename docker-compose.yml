@@ -1,0 +1,28 @@
+name: chatbot-telegram-clima
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:${N8N_VERSION:-stable}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${N8N_LOCAL_PORT:-5680}:5678"
+    environment:
+      TZ: America/Sao_Paulo
+      GENERIC_TIMEZONE: America/Sao_Paulo
+      N8N_PORT: "5678"
+      N8N_HOST: "${N8N_HOST:-localhost}"
+      N8N_PROTOCOL: "http"
+      N8N_EDITOR_BASE_URL: "${N8N_EDITOR_BASE_URL:-http://localhost:5680}"
+      WEBHOOK_URL: "${WEBHOOK_URL:?Configure WEBHOOK_URL no arquivo .env}"
+      N8N_WEBHOOK_URL: "${WEBHOOK_URL:?Configure WEBHOOK_URL no arquivo .env}"
+      N8N_PROXY_HOPS: "${N8N_PROXY_HOPS:-1}"
+      N8N_ENCRYPTION_KEY: "${N8N_ENCRYPTION_KEY:?Configure uma chave propria no arquivo .env}"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      OPENWEATHER_API_KEY: "${OPENWEATHER_API_KEY:?Configure OPENWEATHER_API_KEY no arquivo .env}"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:
